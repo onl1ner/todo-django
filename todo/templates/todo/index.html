@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>ToDo list</title>
+	</head>
+	<body>
+        <h2 style="maring-bottom:0">Hello, {{ user.username }}! <a href={% url 'todo:logout_user' %}>Log out</a></h2>
+        
+        <form action="{% url 'todo:add' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" required placeholder="Enter your task" name="task_name">
+            <button type="submit">Add task</button>
+        </form>
+
+        <div>
+            <a href="{% url 'todo:clear' %}">
+                <button type="button">
+                    Clear list
+                </button>
+            </a>
+        </div>
+
+        {% if pending_tasks %}
+            <h3>Tasks:</h3>
+            <ul>
+                {% for task in pending_tasks %}
+                    {% if not task.is_finished %}
+                        <a href="{% url 'todo:finish' task.id %}"><li>{{ task.task_name }}</li></a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if finished_tasks %}
+            <h3>Completed tasks:</h3>
+            <ul>
+                {% for task in finished_tasks %}
+                    {% if task.is_finished %}
+                        <strike><li>{{ task.task_name }}</li></strike>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+	</body>
+</html>

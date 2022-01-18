@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Registration</title>
+    </head>
+    <body>
+        <h2>Registration</h2>
+        
+        <form class="site-form" action="{% url 'authentication:registration' %}", method='POST'>
+            {% csrf_token %}
+            {{ form }}
+
+            <input type="submit" value="Register">
+        </form>
+
+        <a href="{% url 'authentication:login' %}">Login</a>
+    </body>
+</html>
